@@ -144,8 +144,15 @@ app.get("/v1/user/:id/", cors({
                     });
 
                     let avatarLink = null;
-                    if (json.avatar)
+                    if (json.avatar) {
                         avatarLink = `https://cdn.discordapp.com/avatars/${json.id}/${json.avatar}`;
+                    } else {
+                        let avatarId = (parseInt(json.id) >> 22) % 6;
+                        if (json.raw != undefined && json.raw.discriminator != "0")
+                            avatarId = parseInt(json.raw.discriminator) % 5;
+
+                        avatarLink = `https://cdn.discordapp.com/embed/avatars/${avatarId}.png`;
+                    }
 
                     let bannerLink = null;
                     if (json.banner)
