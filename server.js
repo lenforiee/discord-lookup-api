@@ -121,7 +121,7 @@ app.get("/v1/user/:id/", cors({
             fetch(`https://canary.discord.com/api/v10/users/${id}`, {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bot ${process.env.TOKEN}`,
+                    Authorization: `Bot ${process.env.DISCORD_TOKEN}`,
                 },
             })
                 .then((res) => res.json())
@@ -185,5 +185,5 @@ app.get("*", function (req, res) {
     res.status(404).send("404 - Not Found");
 });
 
-app.listen(process.env.API_PORT, "127.0.0.1");
-console.log(`Server opened at port ${process.env.API_PORT}`);
+app.listen(process.env.APP_PORT, process.env.APP_HOST);
+console.log(`Server opened at port ${process.env.APP_PORT}`);
