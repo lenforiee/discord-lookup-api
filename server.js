@@ -30,11 +30,13 @@ app.use((req, res, next) => {
     res.append("Access-Control-Allow-Origin", ["*"]);
     res.append("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
     res.append("Access-Control-Allow-Headers", "Content-Type");
-    next();
-});
 
-app.get("/", (req, res) => {
-    res.send("root page");
+    if (req.query.key === undefined || req.query.key != process.env.APP_SECRET_KEY) {
+        res.status(403).send("403 - Forbidden");
+        return;
+    }
+
+    next();
 });
 
 app.get("/v1/guild/:id", cors({
